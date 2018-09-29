@@ -15,6 +15,7 @@ resource "aws_route53_record" "etcds" {
 
 # Controller instances
 resource "aws_instance" "controllers" {
+	depends_on = ["aws_iam_role.controller_role"]
   count = "${var.controller_count}"
 
   tags = {
@@ -40,6 +41,8 @@ resource "aws_instance" "controllers" {
   lifecycle {
     ignore_changes = ["ami"]
   }
+
+	iam_instance_profile = "${aws_iam_instance_profile.controller_profile.name}"
 }
 
 # Controller Container Linux Config

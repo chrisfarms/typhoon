@@ -41,6 +41,8 @@ resource "aws_autoscaling_group" "workers" {
 
 # Worker template
 resource "aws_launch_configuration" "worker" {
+	depends_on = ["aws_iam_role.worker_role"]
+
   image_id          = "${local.ami_id}"
   instance_type     = "${var.instance_type}"
   spot_price        = "${var.spot_price}"
@@ -62,6 +64,8 @@ resource "aws_launch_configuration" "worker" {
     create_before_destroy = true
     ignore_changes        = ["image_id"]
   }
+
+  iam_instance_profile = "${aws_iam_instance_profile.worker_profile.name}"
 }
 
 # Worker Container Linux Config
