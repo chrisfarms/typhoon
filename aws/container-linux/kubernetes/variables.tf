@@ -132,5 +132,5 @@ variable "cluster_domain_suffix" {
 variable "cloud_provider" {
   description = "Cloud specific feature flag"
   type        = "string"
-  default     = "aws"
+  default     = ""
 }
