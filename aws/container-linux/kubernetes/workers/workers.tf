@@ -77,6 +77,7 @@ data "template_file" "worker_config" {
     ssh_authorized_key    = "${var.ssh_authorized_key}"
     k8s_dns_service_ip    = "${cidrhost(var.service_cidr, 10)}"
     cluster_domain_suffix = "${var.cluster_domain_suffix}"
+    cloud_provider        = "${var.cloud_provider}" 
   }
 }
 
