@@ -36,12 +36,20 @@ resource "aws_autoscaling_group" "workers" {
     key                 = "Name"
     value               = "${var.name}-worker"
     propagate_at_launch = true
+  },{
+    key = "kubernetes.io/cluster/${var.name}"
+    value = "owned"
+    propagate_at_launch = true
+  },{
+    key                 = "KubernetesCluster"
+    value               = "${var.name}"
+    propagate_at_launch = true
   }]
 }
 
 # Worker template
 resource "aws_launch_configuration" "worker" {
-	depends_on = ["aws_iam_role.worker_role"]
+  depends_on = ["aws_iam_role.worker_role"]
 
   image_id          = "${local.ami_id}"
   instance_type     = "${var.instance_type}"
@@ -77,7 +85,7 @@ data "template_file" "worker_config" {
     ssh_authorized_key    = "${var.ssh_authorized_key}"
     k8s_dns_service_ip    = "${cidrhost(var.service_cidr, 10)}"
     cluster_domain_suffix = "${var.cluster_domain_suffix}"
-    cloud_provider        = "${var.cloud_provider}" 
+    cloud_provider        = "${var.cloud_provider}"
   }
 }
 

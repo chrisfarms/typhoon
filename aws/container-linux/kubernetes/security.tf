@@ -8,7 +8,11 @@ resource "aws_security_group" "controller" {
 
   vpc_id = "${aws_vpc.network.id}"
 
-  tags = "${map("Name", "${var.cluster_name}-controller")}"
+  tags = "${map(
+    "Name", "${var.cluster_name}-controller",
+    "kubernetes.io/cluster/${var.cluster_name}", "owned",
+    "KubernetesCluster", "${var.cluster_name}"
+  )}"
 }
 
 resource "aws_security_group_rule" "controller-ssh" {
@@ -204,7 +208,11 @@ resource "aws_security_group" "worker" {
 
   vpc_id = "${aws_vpc.network.id}"
 
-  tags = "${map("Name", "${var.cluster_name}-worker")}"
+  tags = "${map(
+    "Name", "${var.cluster_name}-worker",
+    "kubernetes.io/cluster/${var.cluster_name}", "owned",
+    "KubernetesCluster", "${var.cluster_name}"
+  )}"
 }
 
 resource "aws_security_group_rule" "worker-ssh" {
