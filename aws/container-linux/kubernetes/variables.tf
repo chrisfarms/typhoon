@@ -128,3 +128,9 @@ variable "cluster_domain_suffix" {
   type        = "string"
   default     = "cluster.local"
 }
+
+variable "cloud_provider" {
+  description = "Cloud specific feature flag"
+  type        = "string"
+  default     = ""
+}
